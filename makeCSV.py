@@ -66,9 +66,9 @@ def list_directory_contents(directory):
           except ValueError as e:
               print(f"An error occurred: {e}")
         
-        with open(meta_file, mode='w', newline='', encoding='utf-8') as file1, \
-          open(rights_file, mode='w', newline='', encoding='utf-8') as file2, \
-          open(log_file, mode='w', newline='', encoding='utf-8') as logfile:
+        with open(meta_file, mode='w', newline='', encoding='utf_8_sig') as file1, \
+          open(rights_file, mode='w', newline='', encoding='utf_8_sig') as file2, \
+          open(log_file, mode='w', newline='', encoding='utf_8_sig') as logfile:
             
             writer1 = csv.writer(file1)
             writer1.writerow(["filename"])
