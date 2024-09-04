@@ -5,7 +5,7 @@
 |__|__|__||___._||__|__||_____||______||_______| \_____/  
 ```
 
-makeCSV is a Python script developed to generate a list of paths of all sub-directories and files within a given directory. This tool was created to support users who are importing descriptive metadata via CSV into Archivematica.
+makeCSV is a Python script developed to generate a CSV listing the paths of all sub-directories and files within a given directory. This tool was created to support users requiring a CSV to import metadata into Archivematica.
 
 You can either run the script from your command line: 
 
@@ -21,6 +21,6 @@ These self contained files were generated using [PyInstaller](https://pyinstalle
 pyinstaller --onefile makeCSV.py
 ```
 
-For more information about importing metadata into Archivematic, please refer to our guide:
+For more information about importing metadata into Archivematica, please refer to our guide:
 
 [https://learn.scholarsportal.info/all-guides/a-guide-to-user-submitted-metadata-in-archivematica/](https://learn.scholarsportal.info/all-guides/a-guide-to-user-submitted-metadata-in-archivematica/)
