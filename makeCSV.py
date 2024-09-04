@@ -23,56 +23,39 @@ def find_non_latin(text, log):
         print("!!! " + msg)
         writer.writerow([msg])
 
-def list_directory_contents(directory):
-    try:
-        # Get the list of files and directories
-        while True:
-          try:
-            if not os.path.exists(directory+'/objects'):
-              print("Your files need to be placed within a folder named 'objects' first.")
-              directory = input("Please enter the directory path again: ").strip()
-            else:
-              break
-          except ValueError as e:
-              print(f"An error occurred: {e}")
+def gen_source_files(directory, logfile):
+    source_file = os.path.join(directory+'/metadata', "source-metadata.csv")
+    with open(source_file, mode='w', newline='', encoding='utf-8') as file1:
+       writer1 = csv.writer(file1)
+       writer1.writerow(["filename","metadata","type"])
 
-        # Prepare the CSV file
-        if not os.path.exists(directory+'/metadata'): 
-          os.mkdir(directory+'/metadata')
-        else:
-          while True:
-            try:
-              overwrite = input("It looks like a metadata folder already exists and will get overwritten. Continue? (y/n)")
-              if overwrite == 'y':
-                 break
-              else:
-                print("Okay bye!")
-                sys.exit()
-            except ValueError as e:
-                print(f"An error occurred: {e}")
+       for root, dirs, files in os.walk(directory, topdown=True):
+          files.sort()
+          for file_name in files:
+                    full_path = os.path.join(root, file_name)
+                    relative_path = os.path.relpath(full_path, directory)
+                    # Skip the metadata file that's generated
+                    if relative_path.startswith("metadata"):
+                      # Skip any hidden files like .DS_Store
+                      if relative_path.endswith(".xml"):
+                        find_non_latin(relative_path, logfile)
+                        filename = relative_path.replace("metadata/","")
+                        clean_text = re.sub(r'[^a-zA-Z0-9\\/]', '_', filename)
+                        writer1.writerow(["objects",clean_text])
 
-                        
-        meta_file = os.path.join(directory+'/metadata', "metadata.csv")
-        rights_file = os.path.join(directory+'/metadata', "rights.csv")
-        log_file = os.path.join(directory+'/metadata', "log.txt")
-
-        while True:
-          try:
-              bagged = input("Is this a bagged transfer type (y/n): ")
-              if bagged == 'y' or bagged == 'n':
-                break
-              else:
-                print("You need to actually type either 'y' for yes or 'n' for no")   
-          except ValueError as e:
-              print(f"An error occurred: {e}")
-        
-        with open(meta_file, mode='w', newline='', encoding='utf_8_sig') as file1, \
-          open(rights_file, mode='w', newline='', encoding='utf_8_sig') as file2, \
-          open(log_file, mode='w', newline='', encoding='utf_8_sig') as logfile:
+def gen_metadata_files(directory, bagged, log_file):
+    meta_file = os.path.join(directory+'/metadata', "metadata.csv")
+    rights_file = os.path.join(directory+'/metadata', "rights.csv")
+   
+    with open(meta_file, mode='w', newline='', encoding='utf-8') as file1, \
+          open(rights_file, mode='w', newline='', encoding='utf-8') as file2, \
+          open(log_file, mode='w', newline='', encoding='utf-8') as logfile:
             
+            #file1.write('\ufeff')
             writer1 = csv.writer(file1)
             writer1.writerow(["filename"])
 
+            #file2.write('\ufeff')
             writer2 = csv.writer(file2)
             writer2.writerow([
                "file",
@@ -116,7 +99,71 @@ def list_directory_contents(directory):
                           writer1.writerow([relative_path])
                           writer2.writerow([relative_path])
 
-        print(f"metadata.csv and rights.csv files have been created successfully.")
+    print(f"metadata.csv and rights.csv files have been created successfully.")
+
+def list_directory_contents(directory):
+    try:
+        # Get the list of files and directories
+        while True:
+          try:
+            if not os.path.exists(directory+'/objects'):
+              print("Your files need to be placed within a folder named 'objects' first.")
+              directory = input("Please enter the directory path again: ").strip()
+            else:
+              break
+          except ValueError as e:
+              print(f"An error occurred: {e}")
+
+        # Prepare the CSV file
+        if not os.path.exists(directory+'/metadata'): 
+          os.mkdir(directory+'/metadata')
+        else:
+          while True:
+            try:
+              overwrite = input("It looks like a metadata folder already exists. Your CSV files will get overwritten. Continue? (y/n): ")
+              if overwrite == 'y':
+                 break
+              else:
+                print("Okay bye!")
+                sys.exit()
+            except ValueError as e:
+                print(f"An error occurred: {e}")
+
+        xmlExists = False
+        log_file = os.path.join(directory+'/metadata', "log.txt")
+
+        while True:
+          try:
+              if any(fname.endswith('.xml') for fname in os.listdir(directory+'/metadata')):
+                xmlExists = True
+                makeMetaCSV = input("Looks like you're doing an XML Import. Generate metadata.csv and rights.csv? (y/n): ")
+                if  makeMetaCSV == 'y' or  makeMetaCSV == 'n':
+                  break
+                else:
+                  print("You need to actually type either 'y' for yes or 'n' for no")
+              else:
+                 makeMetaCSV = 'y'
+                 break   
+          except ValueError as e:
+            print(f"An error occurred: {e}")
+              
+        if (makeMetaCSV == 'y'):
+          while True:
+            try:
+                bagged = input("Is this a bagged transfer type (y/n): ")
+                if bagged == 'y' or bagged == 'n':
+                  break
+                else:
+                  print("You need to actually type either 'y' for yes or 'n' for no")   
+            except ValueError as e:
+              print(f"An error occurred: {e}")
+
+        if (xmlExists):
+          gen_source_files(directory, log_file)
+          if (makeMetaCSV == 'y'):
+            gen_metadata_files(directory, bagged, log_file)
+        else:
+          gen_metadata_files(directory, bagged, log_file)         
         
         if os.path.getsize(directory+'/metadata/log.txt') == 0:
           os.remove(directory+'/metadata/log.txt')
@@ -142,12 +189,11 @@ def list_directory_contents(directory):
         print(f"An error occurred: {e}")
 
 def main():
-    print("""\
-            _        ___ _____   __
- _ __  __ _| |_____ / __/ __\ \ / /
-| '  \/ _` | / / -_) (__\__ \\\ V / 
-|_|_|_\__,_|_\_\___|\___|___/ \_/                                    
-
+    print("""
+                  __            ______  _______  ___ ___ 
+.--------..---.-.|  |--..-----.|      ||     __||   |   |
+|        ||  _  ||    < |  -__||   ---||__     ||   |   |
+|__|__|__||___._||__|__||_____||______||_______| \\_____/  
               """)
     directory = input("Please enter the directory path: ").strip()
     list_directory_contents(directory)
