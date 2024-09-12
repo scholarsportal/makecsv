@@ -14,7 +14,9 @@ makeCSV.py can be run from the command line if you have [python3](https://www.py
 python3 makeCSV.py
 ```
 
-If you do not have python3 on your machine, download one of the packaged files for Mac or Windows under the /dist folder. These self contained files were generated using PyInstaller:
+If you don't have python3 on your machine, use one of the packaged files for Mac or Windows under the /dist folder. [You can download the latest package here](https://github.com/scholarsportal/makecsv/tags). 
+
+These self contained files were generated using PyInstaller:
 
 ```
 pyinstaller --onefile makeCSV.py
