@@ -6,7 +6,7 @@ from pathlib import Path
 
 def find_special_characters(text, logfile):
     # Define a regular expression pattern to match special characters
-    special_chars = re.findall(r"[!@#$%^&*()=+[\]{};':\"<>?\s`]", text)
+    special_chars = re.findall(r"[!@#$%^&*()=+[\]{};':\"<>?~\s`]", text)
     with open(logfile, mode='a', newline='', encoding='utf-8') as log:
       if special_chars:
           writer = csv.writer(log)
@@ -44,7 +44,7 @@ def gen_source_files(directory, bagged, log, makeMetaCSV):
                       if relative_path.endswith(".xml"):
                         find_special_characters(relative_path, log)
                         find_non_latin(relative_path, log)
-                        clean = re.sub(r"[!@#$%^&*()=+[\]{};':\"<>?\s`]", "_", relative_path)
+                        clean = re.sub(r"[!@#$%^&*()=+[\]{};':\"<>?~\s`]", "_", relative_path)
                         path = Path(clean).parts
                         parts = list(path)
                         parts.pop(0)
@@ -92,12 +92,12 @@ def gen_metadata_files(directory, bagged, log):
                     full_path = os.path.join(root, dir_name)
                     relative_path = os.path.relpath(full_path, directory)
                     if not relative_path.startswith("metadata"):
-                      clean_text = re.sub(r"[!@#$%^&*()=+[\]{};':\"<>?\s`]", "_", relative_path) 
+                      find_special_characters(relative_path, log)
+                      find_non_latin(relative_path, log)
+                      clean_text = re.sub(r"[!@#$%^&*()=+[\]{};':\"<>?~\s`]", "_", relative_path) 
                       path = Path(clean_text).parts
                       parts = list(path)
                       filename = "/".join(parts)
-                      find_special_characters(filename, log)
-                      find_non_latin(filename, log)
                       writer1.writerow([filename])
 
                 # Write files
