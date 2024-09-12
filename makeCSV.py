@@ -14,7 +14,6 @@ def find_special_characters(text, logfile):
           print("!!! " + msg)
           writer.writerow([msg])
 
-
 def find_non_latin(text, logfile):
     # Regular expression to match any non-Latin character
     non_latin = re.findall(r'[^\u0000-\u007F\u0080-\u00FF]', text)
@@ -24,7 +23,6 @@ def find_non_latin(text, logfile):
           msg = "Non Latin characters found [" + ''.join(non_latin) + "] in " + text
           print("!!! " + msg)
           writer.writerow([msg])
-
 
 def gen_source_files(directory, bagged, log, makeMetaCSV):
     source_file = os.path.join(directory+'/metadata', "source-metadata.csv")
@@ -58,7 +56,6 @@ def gen_source_files(directory, bagged, log, makeMetaCSV):
       gen_metadata_files(directory, bagged, log)
     else:
       another(directory)
-
 
 def gen_metadata_files(directory, bagged, log):
     meta_file = os.path.join(directory+'/metadata', "metadata.csv")
