@@ -28,7 +28,7 @@ Once downloaded, double-click the file to open the program: ```makeCSV.exe``` on
 # Using makeCSV
 makeCSV can generate the following CSV files and will populate the files with the following information:
 - ```metadata.csv```: populates the ```filename``` column with a list of all sub-directories and files within the ```objects``` directory.
-- ```rights.csv```: populates the ```file``` column (not a typo!) with a list of all sub-directories and files within the ```objects``` directory and provides column headers for each PREMIS rights element.
+- ```rights.csv```: populates the ```file``` column (not a typo!) with a list of all files within the ```objects``` directory and provides column headers for each PREMIS rights element.
 - ```source-metadata.csv```: populates the ```metadata``` column with a list of all XML metadata files stored in the ```metadata``` directory. For each entry, the corresponding ```filename``` value is prefilled as ```objects```. Only generated if XML files are found in the ```metadata``` directory.
 
 A ```log.txt``` file will also be created if makeCSV identifies and/or replaces characters that Archivematica cannot handle (e.g., spaces, commas, non-Latin characters).
