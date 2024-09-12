@@ -123,7 +123,6 @@ def gen_metadata_files(directory, bagged, log):
     print(f"rights.csv created!")
     another(directory)
 
-
 def another(directory):
 
   if os.path.getsize(directory+'/metadata/log.txt') == 0:
@@ -142,7 +141,6 @@ def another(directory):
           print("You need to actually type either 'y' for yes or 'n' for no")   
     except ValueError as e:
         print(f"An error occurred: {e}")
-
 
 def questions(directory):
     try:
