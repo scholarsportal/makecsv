@@ -14,7 +14,7 @@ makeCSV.py can be run from the command line if you have [python3](https://www.py
 python3 makeCSV.py
 ```
 
-If you don't have python3 on your machine, use one of the packaged files for Mac or Windows under the /dist folder. [You can download the latest package here](https://github.com/scholarsportal/makecsv/tags). 
+If you don't have python3 on your machine, use one of the packaged files for Mac or Windows under the /dist folder. [You can download the latest package here](https://github.com/scholarsportal/makecsv/tags). For Mac, note that the package works only for ARM-based machines. If your Mac uses Intel, run makeCSV using the script, as above.
 
 These self contained files were generated using PyInstaller:
 
@@ -42,7 +42,7 @@ Once open, makeCSV will provide a series of prompts to determine what and how CS
 A notification will appear in the terminal as each CSV file is created. Navigate to the ```metadata``` directory in your transfer to review and edit the files.
 
 Warning messages beginning with ```!!!``` will also appear if makeCSV identifies characters that Archivematica cannot handle while generating the CSVs. These warnings will be collated in a ```log.txt``` file, also stored in the ```metadata``` directory. See Resources for details about Archivematica's requirements.
-- In the CSV files, makeCSV will replace blank spaces as well as the following characters with an underscore, per Archivematica's requirements: ```!@#$%^&*()=+[]{};':"<>?\`~```
+- In the CSV files, makeCSV will replace blank spaces as well as the following characters with an underscore in folder paths, per Archivematica's requirements (these characters do not need to be replaced in file paths): ```!@#$%^&*()=+[]{};':"<>?\`~```
 - Non-Latin characters and characters with accent marks will be flagged but not replaced. These should be replaced in the CSV by the user according to Archivematica's requirements
 
 # Resources
