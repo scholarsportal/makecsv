@@ -14,9 +14,11 @@ makeCSV.py can be run from the command line if you have [python3](https://www.py
 python3 makeCSV.py
 ```
 
-If you don't have python3 on your machine, use one of the packaged files for Mac or Windows under the /dist folder. [You can download the latest package here](https://github.com/scholarsportal/makecsv/tags). For Mac, note that the package works only for ARM-based machines. If your Mac uses Intel, run makeCSV using the script, as above.
+If you don't have python3 on your machine, use one of the packaged files for Mac or Windows under the /dist folder. [You can download the latest package here](https://github.com/scholarsportal/makecsv/tags). 
 
-These self contained files were generated using PyInstaller:
+For Mac, note that the package works only for ARM-based machines. If your Mac uses Intel, run makeCSV using the script above - attempting to run the package will return: ```Bad CPU Type in Executable```.
+
+These self contained package files were generated using PyInstaller:
 
 ```
 pyinstaller --onefile makeCSV.py
@@ -43,7 +45,7 @@ A notification will appear in the terminal as each CSV file is created. Navigate
 
 Warning messages beginning with ```!!!``` will also appear if makeCSV identifies characters that Archivematica cannot handle while generating the CSVs. These warnings will be collated in a ```log.txt``` file, also stored in the ```metadata``` directory. See Resources for details about Archivematica's requirements.
 - In the CSV files, makeCSV will replace blank spaces as well as the following characters with an underscore in folder paths, per Archivematica's requirements (these characters do not need to be replaced in file paths): ```!@#$%^&*()=+[]{};':"<>?\`~```
-- Non-Latin characters and characters with accent marks will be flagged but not replaced. These should be replaced in the CSV by the user according to Archivematica's requirements
+- Non-Latin characters and characters with accent marks will be flagged but not replaced to ensure transliterations reflect their context appropriately. These should be manually replaced in the CSV and the physical file and/or folder name by the user according to Archivematica's requirements. Note also that non-Latin characters and accent marks in CSV files may not display properly in MS Excel due to limitations in Excel for handling encoding for CSV files. These characters will render properly when CSV files are opened in text editors.
 
 # Resources
 For more information about importing metadata into Archivematica, please refer to our [Guide to User-Submitted Metadata in Archivematica](https://learn.scholarsportal.info/all-guides/a-guide-to-user-submitted-metadata-in-archivematica/).
