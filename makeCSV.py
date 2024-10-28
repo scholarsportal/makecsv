@@ -16,7 +16,7 @@ def find_special_characters(text, logfile):
 
 def find_non_latin(text, logfile):
     # Regular expression to match any non-Latin character
-    non_latin = re.findall(r'[^\u0000-\u007F\u0080-\u00FF]', text)
+    non_latin = re.findall(r'[^\u0000-\u007F]', text)
     with open(logfile, mode='a', newline='', encoding='utf-8') as log:
       if non_latin:
           writer = csv.writer(log)
